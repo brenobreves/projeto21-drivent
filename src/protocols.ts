@@ -12,9 +12,9 @@ export type RequestError = {
 };
 
 export type CepInfo = {
-  logradouro:  string;
+  logradouro: string;
   complemento: string;
-  bairro:      string;
-  cidade:      string;
-  uf:          string;
-}
+  bairro: string;
+  cidade: string;
+  uf: string;
+};
