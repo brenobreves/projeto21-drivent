@@ -11,7 +11,9 @@ async function checkEnrollment(userId:number) {
 }
 
 async function getHotels() {
-    return await hotelsRepository.getHotels()
+    const hotels =  await hotelsRepository.getHotels()
+    if (hotels.length === 0) throw notFoundError()
+    return hotels
 }
 
 async function checkHotel(hotelId: number) {
