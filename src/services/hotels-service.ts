@@ -1,10 +1,8 @@
 import { notFoundError } from "@/errors"
 import { enrollmentRepository, hotelsRepository } from "@/repositories"
-import { number } from "joi";
 
 async function checkEnrollment(userId:number) {
     const enrollment = await enrollmentRepository.findWithTicketByUserId(userId);
-    console.log(enrollment);
     if(!enrollment || !enrollment.Ticket) throw notFoundError();
     if(enrollment.Ticket.status !== "PAID") throw {name:"PaymentRequired", message: "Ticket is not paid"}
     if(enrollment.Ticket.TicketType.isRemote) throw {name:"PaymentRequired", message: "Ticket is remote"}
