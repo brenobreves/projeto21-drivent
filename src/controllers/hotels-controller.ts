@@ -11,7 +11,7 @@ export async function getHotels(req:AuthenticatedRequest, res:Response) {
 
 export async function getRooms(req:AuthenticatedRequest, res:Response) {
     const {hotelId} = req.params
-    if(isNaN(Number(hotelId))) throw invalidDataError("params hotelId")
+    if(isNaN(Number(hotelId)) || !Number.isInteger(Number(hotelId))) throw invalidDataError("params hotelId")
     const hotelRooms = await hotelsService.getRooms(Number(hotelId), req.userId)
     res.status(httpStatus.OK).send(hotelRooms)
 }
