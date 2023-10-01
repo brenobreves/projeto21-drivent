@@ -1,5 +1,6 @@
 import { notFoundError } from "@/errors"
 import { enrollmentRepository, hotelsRepository } from "@/repositories"
+import { number } from "joi";
 
 async function checkEnrollment(userId:number) {
     const enrollment = await enrollmentRepository.findWithTicketByUserId(userId);
@@ -10,7 +11,8 @@ async function checkEnrollment(userId:number) {
     if(!enrollment.Ticket.TicketType.includesHotel) throw {name:"PaymentRequired", message: "Ticket doesn't include hotel"}
 }
 
-async function getHotels() {
+async function getHotels(userId: number) {
+    await checkEnrollment(userId)
     const hotels =  await hotelsRepository.getHotels()
     if (hotels.length === 0) throw notFoundError()
     return hotels
@@ -21,7 +23,9 @@ async function checkHotel(hotelId: number) {
     if(!hotel) throw notFoundError()
 }
 
-async function getRooms(hotelId: number) {
+async function getRooms(hotelId: number, userId: number) {
+    await checkHotel(hotelId)
+    await checkEnrollment(userId)
     return await hotelsRepository.getHotelRooms(hotelId)
 }
-export const hotelsService = { checkEnrollment, getHotels, checkHotel, getRooms }
+export const hotelsService = { getHotels, getRooms }
