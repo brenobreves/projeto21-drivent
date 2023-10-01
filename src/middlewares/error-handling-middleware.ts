@@ -20,6 +20,12 @@ export function handleApplicationErrors(
     });
   }
 
+  if (err.name === "PaymentRequired"){
+    return res.status(httpStatus.PAYMENT_REQUIRED).send({
+      message: err.message
+    })
+  }
+
   if (err.name === 'InvalidCredentialsError' || err.name === 'JsonWebTokenError') {
     return res.status(httpStatus.UNAUTHORIZED).send({
       message: err.message,
