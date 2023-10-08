@@ -33,4 +33,12 @@ async function updateBooking(id:number,roomId:number) {
     })
 }
 
-export const bookingRepository = { getBooking, createBooking, updateBooking }
+async function getBookingById(id:number) {
+    return await prisma.booking.findUnique({
+        where:{
+            id
+        }
+    })
+}
+
+export const bookingRepository = { getBooking, createBooking, updateBooking, getBookingById }
