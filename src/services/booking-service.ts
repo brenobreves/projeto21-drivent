@@ -26,7 +26,7 @@ async function createBooking(userId:number,roomId:number) {
 
 async function updateBooking(userId:number,roomId:number, bookingId: number) {
     const paramsbooking = await bookingRepository.getBookingById(bookingId)
-    if (!paramsbooking) throw {name:"Forbidden", message:"Booking params not found"}
+    if (!paramsbooking) throw notFoundError()
     if (paramsbooking.userId !== userId) throw {name:"Forbidden", message:"User doesnt own this booking"}
     const newRoomInfo = await roomRepository.getRoom(roomId)
     if (!newRoomInfo) throw notFoundError()
