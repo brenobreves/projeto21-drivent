@@ -13,6 +13,7 @@ import {
   hotelsRouter,
 } from '@/routers';
 import { loadEnv, connectDb, disconnectDB } from '@/config';
+import { bookingRouter } from './routers/booking-router';
 
 loadEnv();
 
@@ -28,6 +29,7 @@ app
   .use('/tickets', ticketsRouter)
   .use('/payments', paymentsRouter)
   .use('/hotels', hotelsRouter)
+  .use('/booking', bookingRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
