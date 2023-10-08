@@ -11,7 +11,7 @@ async function getBooking(userId:number) {
 
 async function createBooking(userId:number,roomId:number) {
     const userInfos = await enrollmentRepository.findWithTicketByUserId(userId);
-    if(!userInfos) throw notFoundError()
+    if(!userInfos || !userInfos.Ticket) throw notFoundError()
     if (userInfos.Ticket.status !== "PAID" || userInfos.Ticket.TicketType.isRemote || !userInfos.Ticket.TicketType.includesHotel){
         throw {name: "Forbidden", message:"Your ticket must be paid, not remote and include hotel"}
     }
