@@ -24,14 +24,13 @@ async function createBooking(userId:number,roomId:number) {
     return booking.id
 }
 
-async function updateBooking(userId:number,roomId:number, bookingId: number) {
-    const paramsbooking = await bookingRepository.getBookingById(bookingId)
-    if (!paramsbooking) throw notFoundError()
-    if (paramsbooking.userId !== userId) throw {name:"Forbidden", message:"User doesnt own this booking"}
+async function updateBooking(userId:number,roomId:number) {
+    const oldbooking = await bookingRepository.getBooking(userId)
+    if (!oldbooking) throw {name: "Forbidden", message:"Booking not found"}
     const newRoomInfo = await roomRepository.getRoom(roomId)
     if (!newRoomInfo) throw notFoundError()
     if (newRoomInfo.capacity <= newRoomInfo.Booking.length) throw {name: "Forbidden", message:"New room is full"}
-    const newbooking = await bookingRepository.updateBooking(paramsbooking.id,roomId)
+    const newbooking = await bookingRepository.updateBooking(oldbooking.id,roomId)
     return newbooking.id
 }
 
